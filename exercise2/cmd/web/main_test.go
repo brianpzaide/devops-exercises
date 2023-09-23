@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"strings"
 	"testing"
 )
@@ -16,9 +17,9 @@ func TestMain(t *testing.T) {
 	}
 	testData := input{
 		ForestSize: 5,
-		Forest:     "....\nB...\n..BB\n....",
+		Forest:     ".B...\n.B.B.\n.B.B.\n.B.B.\n...B.",
 		Start:      []int{0, 0},
-		End:        []int{3, 3},
+		End:        []int{4, 4},
 	}
 
 	gridMatrix, err := constructMatrix(testData.ForestSize, testData.Forest)
@@ -32,9 +33,9 @@ func TestMain(t *testing.T) {
 	}
 
 	if !strings.Contains(path, fmt.Sprintf("(%d, %d)", testData.Start[0], testData.Start[1])) {
-		fmt.Println("no path")
+		log.Println("no path")
 	}
 
-	fmt.Println(path)
+	log.Println(path)
 
 }
