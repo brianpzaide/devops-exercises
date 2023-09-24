@@ -10,6 +10,11 @@ I enjoyed working on this project. This project involved working with the follow
 * Ansible
 * Terraform
 
+[!NOTE]
+For the exercises:
+* I opted for K3s instead of Minikube for this exercise due to its lightweight and resource-efficient nature, among its numerous other advantages.
+* I have not tested my terraform file (ie actually creating AWS EC2 instance), All the exercises were done on two (master and slave) virtual boxes with vagrant.
+
 ## Description (reproducing the description here solely for the sake of convenience.)
 ### Exercise: Infrastructure as Code
 #### Objective
@@ -23,10 +28,6 @@ I enjoyed working on this project. This project involved working with the follow
 Configure your fresh EC2 Instance with a complete installation of Minikube using Ansible.
 - [x] Require no user input beyond launching the Ansible Playbook
 - [x] Ansible Playbook should include all the steps necessary to install Minikube.
-
-
-#### note
-I opted for K3s instead of Minikube for this exercise due to its lightweight and resource-efficient nature, among its numerous other advantages.
 
 ### Exercise: Bears in the Forest (Golang)
 
