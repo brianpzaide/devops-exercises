@@ -1,7 +1,8 @@
-data "aws_ami" "server-ami"
+data "aws_ami" "server-ami"{
   most_resent=true
-  owners = ["<get aws ami owner>"]
+  owners = ["amazon"]
   filter {
     name= "name"
-    values = ["ubuntu/images....."]
+    values = ["amzn2-ami-hvm-*"]
   }
+}

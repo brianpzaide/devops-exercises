@@ -12,8 +12,8 @@ I enjoyed working on this project. This project involved working with the follow
 
 [!NOTE]
 For the exercises:
-* I opted for K3s instead of Minikube for this exercise due to its lightweight and resource-efficient nature, among its numerous other advantages.
-* I have not tested my terraform file (ie actually creating AWS EC2 instance), All the exercises were done on two (master and slave) virtual boxes with vagrant.
+* I opted for K3s instead of Minikube due to its lightweight and resource-efficient nature, among its numerous other advantages.
+* I have not yet tested my Terraform configuration, specifically the creation of an AWS EC2 instance. All the exercises were conducted on two virtual machines (a master and a slave) using Vagrant.
 
 ## Description (reproducing the description here solely for the sake of convenience.)
 ### Exercise: Infrastructure as Code

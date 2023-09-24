@@ -1,56 +1,41 @@
-resource "aws_vpc" "mtc_vpc"{
+resource "aws_vpc" "devopsexercises_vpc"{
   cidr_block = "192.168.0.0/16"
-  enable_dns_hostnames = true
-  enable_dns_support = true
-  tags{
-    name="dev"
-  }
 }
 
-resource "aws_subnet" "mtc_subnet"{
-  vpc_id = aws_vpc.mtc_vpc.id
-  cidr_block = "192.168.1.0/16"
-  map_public_ip_on_launch = true
+resource "aws_subnet" "devopsexercises_subnet"{
+  vpc_id = aws_vpc.devopsexercises_vpc.id
+  cidr_block = "192.168.0.0/24"
   availability_zone = "us-west-2a"
-  tags{
-    name="dev-public"
-  }
 }
 
-resource "aws_internet_gateway" "mtc_igw"{
-  vpc_id = aws_vpc.mtc_vpc.id
-  tags{
-    name="dev-igw"
-  }
+resource "aws_internet_gateway" "devopsexercises_igw"{
+  vpc_id = aws_vpc.devopsexercises_vpc.id
 }
 
-resource "aws_route_table" "mtc_rt"{
-  vpc_id = aws_vpc.mtc_vpc.id
-  tags{
-    name="dev-rt"
-  }
+resource "aws_route_table" "devopsexercises_rt"{
+  vpc_id = aws_vpc.devopsexercises_vpc.id
 }
 
-resource "aws_route" "mtc_route"{
-  route_table_id = aws_route_table.mtc_rt.id
+resource "aws_route" "devopsexercises_route"{
+  route_table_id = aws_route_table.devopsexercises_rt.id
   destination_id = "0.0.0.0/0"
-  gateway_id = aws_internet_gateway.mtc_igw.id
+  gateway_id = aws_internet_gateway.devopsexercises_igw.id
 }
 
-resource "aws_route_table_association" "mtc_public_assoc"{
-  subnet_id = aws_subnet.mtc_subnet.id
-  route_table_id = aws_route_table.mtc_rt.id
+resource "aws_route_table_association" "devopsexercises_public_assoc"{
+  subnet_id = aws_subnet.devopsexercises_subnet.id
+  route_table_id = aws_route_table.devopsexercises_rt.id
 }
 
-resource "aws_key_pair" "mtc_auth"{
-  key_pair = "mtckey"
-  public_key = file("~/.ssh/mtckey.pub")
+resource "aws_key_pair" "devopsexercises_auth"{
+  key_pair = "devopsexercises"
+  public_key = file("~/.ssh/devopsexercises.pub")
 }
 
-resource "aws_security_group" "mtc_asg"{
+resource "aws_security_group" "devopsexercises_sg"{
   name = "dev_sg"
   description = "dev security group"
-  vpc_id = aws_vpc.mtc_vpc.id
+  vpc_id = aws_vpc.devopsexercises_vpc.id
   ingress {
     from_port = 0
     to_port = 80
@@ -71,15 +56,12 @@ resource "aws_security_group" "mtc_asg"{
   }
 }
 
-resource "aws_instance" "mtc_node"{
-  ami = ""
-  instance_type = ""
-  tags{
-    name = "dev-node"
-  }
-  key_name = aws_key_pair.mtc_auth.id
-  vpc_security_group_ids = [aws_security_group.mtc_sg.id]
-  subnet_id = aws_subnet_id.mtc_subnet.id
+resource "aws_instance" "devopsexercises_node"{
+  ami = data.aws_ami.server-ami.id
+  instance_type = "t2.micro"
+  key_name = aws_key_pair.devopsexercises_auth.id
+  vpc_security_group_ids = [aws_security_group.devopsexercises_sg.id]
+  subnet_id = aws_subnet_id.devopsexercises_subnet.id
   root_block_device{
     volume_size = 10
   }  
