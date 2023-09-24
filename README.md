@@ -25,7 +25,7 @@ Configure your fresh EC2 Instance with a complete installation of Minikube using
 - [x] Ansible Playbook should include all the steps necessary to install Minikube.
 
 
-####note
+#### note
 I opted for K3s instead of Minikube for this exercise due to its lightweight and resource-efficient nature, among its numerous other advantages.
 
 ### Exercise: Bears in the Forest (Golang)
