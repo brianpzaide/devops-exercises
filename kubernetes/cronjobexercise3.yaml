@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: swapifetchandstore
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: swapifetchandstore
+            image: brianpzaide/swapifetchandstore
+            imagePullPolicy: IfNotPresent
+            volumeMounts:
+            - name: inputandoutput
+              mountPath: /starwarsapifetch
+          restartPolicy: OnFailure
+          volumes:
+          - name: inputandoutput
+            persistentVolumeClaim:
+              claimName: exercise3-pv-claim
+
+
+

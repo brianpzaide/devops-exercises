@@ -1,0 +1,51 @@
+---
+- name: Deploy K3s
+  hosts: master
+
+  tasks:
+  - name: Update and upgrade apt packages
+    apt:
+      upgrade: yes
+      update_cache: yes
+      cache_valid_time: 86400
+
+  - name: Create a directory if it does not exist
+    ansible.builtin.file:
+      path: /home/vagrant/devops-exercise
+      state: directory
+      mode: '0755'
+  
+  - name: Copy input.yaml
+    ansible.builtin.copy:
+      src: /home/vagrant/devops-exercise/exercise3/input.yaml
+      dest: /home/vagrant/devops-exercise/exercise3/
+  
+  - name: Copy py file 
+    ansible.builtin.copy:
+      src: /home/vagrant/devops-exercise/exercise3/starwarscronjob.py
+      dest: /home/vagrant/devops-exercise/exercise3/
+  
+  
+  - name: Install a list of packages
+    ansible.builtin.apt:
+      pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+
+  - name: install k3s using k3s script
+    shell: >
+      curl -sfL https://get.k3s.io | sh -
+  
+  - name: copy the kube config file from remote server
+    ansible.builtin.fetch:
+      src: /etc/rancher/k3s/k3s.yaml
+      dest: ~/.kube/config
+      flat: true
+  
+  - name: replace server field in k3s.yaml with the server's IP
+      replace:
+        path: /home/vagrant/.kube/config
+        regexp: '127.0.0.1:6443'  # The IP address needs to be replaced by the server's IP address
+        replace: "192.168.50.5:6443"  # server's IP address

@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{.Values.cronJob.name}}
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: {{.Values.cronJob.name}}
+            image: {{.Values.cronJob.image.repository}}
+            imagePullPolicy: {{.Values.cronJob.image.pullPolicy}}
+            volumeMounts:
+            - name: {{.Values.cronJob.volumeMounts.name}}
+              mountPath: {{.Values.cronJob.volumeMounts.mountPath}}
+          restartPolicy: {{.Values.cronJob.restartPolicy}}
+          volumes:
+          - name: {{.Values.cronJob.volumeMounts.name}}
+            persistentVolumeClaim:
+              claimName: {{.Values.pvc.name}}
+
+
+

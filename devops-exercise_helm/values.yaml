@@ -1,0 +1,54 @@
+# Default values for devops-exercise.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+deployment:
+  name: bearsintheforest
+  image:
+    repository: brianpzaide/bearsintheforest
+    pullPolicy: IfNotPresent
+  containerPort: 8080
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 100m
+      memory: 64Mi
+    requests:
+      cpu: 100m
+      memory: 64Mi
+
+cronJob:
+  name: swapifetchandstore
+  schedule: "*/5 * * * *"
+  image:
+    repository: brianpzaide/swapifetchandstore
+    pullPolicy: IfNotPresent
+  volumeMounts:
+    name: inputandoutput
+    mountPath: "/starwarsapifetch"
+  restartPolicy: OnFailure
+
+service:
+  name: bearsintheforest
+  type: ClusterIP
+  port: 6060
+  protocol: TCP
+  targetPort: 8080
+
+ingress:
+  name: bearsintheforest-ingress
+  path: /solvemaze
+  pathType: Prefix
+
+pv:
+  name: exercise3-pv-volume
+  capacity: 
+    storage: 100Mi
+  reclaimPolicy: Retain
+  hostPath: "/home/vagrant/devops-exercise/exercise3/"
+
+pvc:
+  name: exercise3-pv-claim
+  accessMode: ReadWriteOnce
+  requests:
+    storage: 10Mi
